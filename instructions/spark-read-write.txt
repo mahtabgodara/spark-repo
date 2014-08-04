@@ -1,0 +1,75 @@
+how to specify a user while using distcp
+
+scp file user:pwd@IP:/user/home
+
+
+sc.sequenceFile("hdfs://192.168.104.131:9000/out.5/part-r-00000",classOf[Text],classOf[IntWritable])
+.map(tuple => (tuple._1.toString, tuple._2.toString)).count
+
+sc.sequenceFile("hdfs://192.168.104.131:9000/edr/gurgaon.EDRFLOW.1401148800.0",classOf[NullWritable],classOf[EDRFlowRecordIdl]).map(tuple => (tuple._2.toString)).collect
+
+import org.apache.thrift._
+import com.guavus._
+import org.apache.hadoop.io._
+import collector.adapters._
+
+class CMemSerializer[T <: TBase[TBase[_, _], TFieldIdEnum]](sz: Int, tproto: SerializeProtocol) extends MemSerializer[T](sz: Int, tproto: SerializeProtocol) with Serializable {}
+
+val serializer = new CMemSerializer[org.apache.thrift.TBase[TBase[_, _], TFieldIdEnum]](10240, com.guavus.SerializeProtocol.T_BINARY)
+val record: TBase[TBase[_, _], TFieldIdEnum] = classOf[EDRFlowRecordIdl].newInstance.asInstanceOf[(TBase[TBase[_, _], TFieldIdEnum])]
+def deserialize(t2:Tuple2[NullWritable,BytesWritable]) = {
+	val bytes = t2._2
+	record.clear
+	serializer.deserialize(record, bytes.getBytes(), bytes.getLength());
+	record
+}
+
+sc.sequenceFile("hdfs://192.168.104.131:9000/edr/gurgaon.EDRFLOW.1401148800.0",classOf[NullWritable],classOf[BytesWritable]).map(deserialize).collect
+
+
+import org.apache.hadoop.hive.ql.io._
+import org.apache.hadoop.hive.serde2.columnar._
+
+sc.hadoopFile[LongWritable,BytesRefArrayWritable,RCFileInputFormat[LongWritable,BytesRefArrayWritable]]("hdfs://192.168.104.131:9000/out.5/part-r-00000")
+.map(tuple => (tuple._1.toString, tuple._2.toString)).count
+
+def createWritableTupleFromBytesRefArrayWritable(refArray  : BytesRefArrayWritable) : WritableTuple = {
+    val values = new Array[Comparable[_]](refArray.size())
+    var i = 0 
+    while(i < refArray.size()) {
+      values(i) = deserialize[Comparable[_]](refArray.get(i).getData())
+      i+=1
+    }
+    values
+  }
+
+def deserialize[T](bytes: Array[Byte]): T = {
+    val bis = new ByteArrayInputStream(bytes)
+    val ois = new ObjectInputStream(bis)
+    var obj = ois.readObject
+    bis.close()
+    obj.asInstanceOf[T]
+  }
+  
+  
+  def serialize(anyObject : Any): Array[Byte] = {
+    val bis = new ByteArrayOutputStream()
+    val ois = new ObjectOutputStream(bis)
+    ois.writeObject(anyObject)
+    bis.toByteArray
+  }
+  
+
+
+def createBytesRefArrayWritable(values  : Array[String]) : BytesRefArrayWritable = {
+    val bytesRefArrayWritable = new BytesRefArrayWritable()
+    var i = 0 
+    for(value <- values) {
+      bytesRefArrayWritable.set(i, new BytesRefWritable(serialize(value)))
+      i+=1
+    }
+    bytesRefArrayWritable
+  }
+  
+rdd.map(tuple => (NullWritable.get(), createBytesRefArrayWritable(tuple.split(" ")))).saveAsHadoopFile("hdfs://192.168.104.131:9000/rc/RCFile", classOf[NullWritable], 
+        classOf[BytesRefArrayWritable], classOf[RCFileOutputFormat])

@@ -1,0 +1,11 @@
+Does every action execute in the same executor on the worker node or is it different ?
+is broadcast immutable? how do we update it we generate IB every hour.
+multiple action in same worker.
+multiple tasks per job, what happens if one of the tasks runs out OOM?
+task failure is retried on the same node or other?
+does the file (IB) is brodcasted all throughout the life of the node as in for every job
+does spark run the combiner task on reduce side as well?
+
+
+
+

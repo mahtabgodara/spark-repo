@@ -1,0 +1,76 @@
+
+
+import scala.io.Source
+
+val lines = Source.fromFile("/Users/mahtab.singh/projects/spark/pagecounts.txt").getLines.toArray
+
+
+val pagecounts = sc.textFile("hdfs://localhost:54310/wiki/pagecounts-20140101-000000")
+val pagecounts = sc.textFile("hdfs://localhost:54310/wiki/pagecounts.txt")
+pagecounts.take(10).foreach(println)
+pagecounts.count
+
+val enPages = pagecounts.filter(_.split(" ")(1) == "aa" || _.split(" ")(1) == "aa.b").cache
+
+val enPages = pagecounts.filter(line => line.split(" ")(1) == "aa" || line.split(" ")(1) == "aa.b").cache
+
+enPages.count
+
+val enTuples = enPages.map(line => line.split(" "))
+
+val enKeyValuePairs = enTuples.map(line => (line(0).substring(0, 8), line(3).toInt))
+
+enKeyValuePairs.reduceByKey(_+_, 1).collect
+
+
+enPages.map(line => line.split(" ")).map(line => (line(0).substring(0, 8), line(3).toInt)).reduceByKey(_+_, 1).collect
+
+
+enPages.map(l => l.split(" ")).map(l => (l(2), l(3).toInt)).reduceByKey(_+_, 4).filter(x => x._2 > 200).map(x => (x._2, x._1)).collect.foreach(println)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+what DS RDD use?

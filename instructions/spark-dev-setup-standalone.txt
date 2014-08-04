@@ -1,0 +1,106 @@
+Setup Spark for Development
+
+JDK
+Maven 
+Scala 
+Python
+Git
+Eclipse
+
+Create a Scala Project 
+
+From Eclipse
+	http://scala-ide.org/docs/tutorials/m2eclipse/
+
+
+cd /home/hduser/projects/sparkProject/
+
+From command line
+
+mvn org.apache.maven.plugins:maven-archetype-plugin:2.2:generate \
+    -DarchetypeGroupId=net.alchim31.maven \
+    -DarchetypeArtifactId=scala-archetype-simple \
+    -DarchetypeVersion=1.5 \
+    -DgroupId=com.training.spark \
+    -DartifactId=examples \
+    -Dversion=0.0.1 \
+    -DinteractiveMode=false
+
+cd examples
+
+Add the following to the dependencies section
+    
+<dependency> <!-- Spark dependency -->
+	<groupId>org.apache.spark</groupId>
+	<artifactId>spark-core_2.10</artifactId>
+	<version>1.0.0</version>
+</dependency>
+<dependency>
+  <groupId>org.apache.hadoop</groupId>
+  <artifactId>hadoop-client</artifactId>
+  <version>1.2.1</version>
+</dependency>
+
+mvn clean install
+
+vi src/main/scala/com/training/spark/App.scala
+
+package com.training.spark.examples
+import org.apache.spark._
+/**
+ * @author ${user.name}
+ */
+object App {
+
+  def main(args : Array[String]) {
+    val logFile = "/home/hduser/projects/spark/README.md" // Should be some file on your system
+    val sc = new SparkContext("local", "Simple App", "/home/hduser/projects/spark",
+    List("/home/hduser/projects/sparkProject/examples/target/examples-0.0.1.jar"))
+    //val conf = new SparkConf().setAppName("SimpleApp")
+    //val sc = new SparkContext(conf)
+    val logData = sc.textFile(logFile, 2).cache()
+    val numAs = logData.filter(line => line.contains("a")).count()
+    val numBs = logData.filter(line => line.contains("b")).count()
+    println("Lines with a: %s, Lines with b: %s".format(numAs, numBs))
+  }
+}
+  
+  
+~/projects/spark/bin/spark-submit \
+	--master local[2] \
+	--class "com.training.spark.examples.App" \
+	/home/hduser/projects/sparkProject/examples/target/examples-0.0.1.jar  
+        
+
+
+In PYTHON
+
+cd /home/hduser/projects/sparkProject
+
+mkdir python
+cd python
+vi SimpleApp.py
+
+"""SimpleApp.py"""
+from pyspark import SparkContext
+
+logFile = "/home/hduser/projects/spark/README.md"  # Should be some file on your system
+sc = SparkContext("local[2]", "Simple App")
+logData = sc.textFile(logFile).cache()
+
+numAs = logData.filter(lambda s: 'a' in s).count()
+numBs = logData.filter(lambda s: 'b' in s).count()
+
+print "Lines with a: %i, lines with b: %i" % (numAs, numBs)
+
+
+
+~/projects/spark/bin/spark-submit \
+    --master local[2]  \
+    SimpleApp.py
+
+
+
+
+
+

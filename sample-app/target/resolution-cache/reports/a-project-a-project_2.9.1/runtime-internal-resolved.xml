@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="ivy-report.xsl"?>
+<ivy-report version="1.0">
+	<info
+		organisation="a-project"
+		module="a-project_2.9.1"
+		revision="0.1"
+		conf="runtime-internal"
+		confs="compile, runtime, test, provided, optional, compile-internal, runtime-internal, test-internal, plugin, sources, docs, pom"
+		date="20140402120210"/>
+	<dependencies>
+		<module organisation="org.scala-lang" name="scala-library">
+			<revision name="2.9.1" status="release" pubdate="20110831140953" resolver="sbt-chain" artresolver="sbt-chain" homepage="http://www.scala-lang.org/" downloaded="false" searched="false" default="false" conf="default(compile), default, compile, runtime, master" position="0">
+				<license name="BSD-like" url="http://www.scala-lang.org/downloads/license.html          "/>
+				<metadata-artifact status="no" details="" size="2322" time="0" location="/Users/mahtab.singh/.ivy2/cache/org.scala-lang/scala-library/ivy-2.9.1.xml" searched="false" origin-is-local="false" origin-location="http://repo1.maven.org/maven2/org/scala-lang/scala-library/2.9.1/scala-library-2.9.1.pom"/>
+				<caller organisation="a-project" name="a-project_2.9.1" conf="optional, compile, runtime, runtime-internal" rev="2.9.1" rev-constraint-default="2.9.1" rev-constraint-dynamic="2.9.1" callerrev="0.1"/>
+				<artifacts>
+				</artifacts>
+			</revision>
+		</module>
+		<module organisation="org.apache.spark" name="spark-core_2.9.1">
+			<revision name="0.9.0-incubating" error="not found" downloaded="false" searched="false" conf="default(compile)" position="-1">
+				<caller organisation="a-project" name="a-project_2.9.1" conf="optional, compile, runtime, runtime-internal" rev="0.9.0-incubating" rev-constraint-default="0.9.0-incubating" rev-constraint-dynamic="0.9.0-incubating" callerrev="0.1"/>
+				<artifacts>
+				</artifacts>
+			</revision>
+		</module>
+	</dependencies>
+</ivy-report>

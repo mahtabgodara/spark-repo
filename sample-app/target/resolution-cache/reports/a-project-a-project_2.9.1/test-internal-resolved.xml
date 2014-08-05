@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="ivy-report.xsl"?>
+<ivy-report version="1.0">
+	<info
+		organisation="a-project"
+		module="a-project_2.9.1"
+		revision="0.1"
+		conf="test-internal"
+		confs="compile, runtime, test, provided, optional, compile-internal, runtime-internal, test-internal, plugin, sources, docs, pom"
+		date="20140402120210"/>
+	<dependencies>
+		<module organisation="org.scalatest" name="scalatest_2.9.1">
+			<revision name="1.6.1" status="release" pubdate="20110831204259" resolver="public" artresolver="public" homepage="http://www.scalatest.org" downloaded="false" searched="false" default="false" conf="default(compile), default, compile, runtime, master" position="1">
+				<license name="the Apache License, ASL Version 2.0" url="http://www.apache.org/licenses/LICENSE-2.0"/>
+				<metadata-artifact status="no" details="" size="4276" time="0" location="/Users/mahtab.singh/.ivy2/cache/org.scalatest/scalatest_2.9.1/ivy-1.6.1.xml" searched="false" origin-is-local="false" origin-location="http://repo1.maven.org/maven2/org/scalatest/scalatest_2.9.1/1.6.1/scalatest_2.9.1-1.6.1.pom"/>
+				<caller organisation="a-project" name="a-project_2.9.1" conf="test-internal, test, optional, compile, provided, runtime" rev="1.6.1" rev-constraint-default="1.6.1" rev-constraint-dynamic="1.6.1" callerrev="0.1"/>
+				<artifacts>
+					<artifact name="scalatest_2.9.1" type="jar" ext="jar" status="no" details="" size="2704854" time="0" location="/Users/mahtab.singh/.ivy2/cache/org.scalatest/scalatest_2.9.1/jars/scalatest_2.9.1-1.6.1.jar">
+						<origin-location is-local="false" location="http://repo1.maven.org/maven2/org/scalatest/scalatest_2.9.1/1.6.1/scalatest_2.9.1-1.6.1.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
+		<module organisation="org.scala-lang" name="scala-library">
+			<revision name="2.9.1" status="release" pubdate="20110831140953" resolver="sbt-chain" artresolver="sbt-chain" homepage="http://www.scala-lang.org/" downloaded="false" searched="false" default="false" conf="default(compile), default, compile, master(*), compile(*), runtime, runtime(*), master" position="0">
+				<license name="BSD-like" url="http://www.scala-lang.org/downloads/license.html          "/>
+				<metadata-artifact status="no" details="" size="2322" time="0" location="/Users/mahtab.singh/.ivy2/cache/org.scala-lang/scala-library/ivy-2.9.1.xml" searched="false" origin-is-local="false" origin-location="http://repo1.maven.org/maven2/org/scala-lang/scala-library/2.9.1/scala-library-2.9.1.pom"/>
+				<caller organisation="a-project" name="a-project_2.9.1" conf="test-internal, test, optional, compile, provided, runtime" rev="2.9.1" rev-constraint-default="2.9.1" rev-constraint-dynamic="2.9.1" callerrev="0.1"/>
+				<caller organisation="org.scalatest" name="scalatest_2.9.1" conf="default, compile, runtime, master" rev="2.9.1" rev-constraint-default="2.9.1" rev-constraint-dynamic="2.9.1" callerrev="1.6.1"/>
+				<artifacts>
+				</artifacts>
+			</revision>
+		</module>
+		<module organisation="org.apache.spark" name="spark-core_2.9.1">
+			<revision name="0.9.0-incubating" error="not found" downloaded="false" searched="false" conf="default(compile)" position="-1">
+				<caller organisation="a-project" name="a-project_2.9.1" conf="test-internal, test, optional, compile, provided, runtime" rev="0.9.0-incubating" rev-constraint-default="0.9.0-incubating" rev-constraint-dynamic="0.9.0-incubating" callerrev="0.1"/>
+				<artifacts>
+				</artifacts>
+			</revision>
+		</module>
+	</dependencies>
+</ivy-report>

@@ -1,0 +1,14 @@
+20090507-040000 aa ?page=http://www.stockphotosharing.com/Themes/Images/users_raw/id.txt 3 39267
+20090507-040000 aa Main_Page 7 51309
+20090507-040000 aa Special:Boardvote 1 11631
+20090507-040000 aa Special:Imagelist 1 931
+20090505-000000 aa.b ?71G4Bo1cAdWyg 1 14463
+20090505-000000 aa.b Special:Statistics 1 840
+20090505-000000 aa.b Special:Whatlinkshere/MediaWiki:Returnto 1 1019
+20090505-000000 aa.b Wikibooks:About 1 15719
+20090505-000000 aa ?14mFX1ildVnBc 1 13205
+20090505-000000 aa ?53A%2FuYP3FfnKM 1 13207
+20090505-000000 aa ?93HqrnFc%2EiqRU 1 13199
+20090505-000000 aa ?95iZ%2Fjuimv31g 1 13201
+20090505-000000 aa File:Wikinews-logo.svg 1 8357
+20090505-000000 aa Main_Page 2 9980

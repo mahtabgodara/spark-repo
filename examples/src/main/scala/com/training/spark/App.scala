@@ -1,4 +1,4 @@
-package com.training.spark
+package com.training.spark.examples
 import org.apache.spark._
 /**
  * @author ${user.name}

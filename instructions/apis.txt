@@ -1,0 +1,84 @@
+http://spark.apache.org/docs/latest/programming-guide.html#shared-variables
+
+
+val baseList=sc.parallelize(List(1,2,3,4))
+
+baseList.map( i => i*i ).collect
+
+scala> baseList.flatMap( i => i*i )
+<console>:18: error: type mismatch;
+ found   : Int
+ required: TraversableOnce[?]
+              baseList.flatMap( i => i*i )
+              
+
+val listofList = sc.parallelize(List(List(1,2,3),List(1,2), List(1,2,3,4)))
+
+
+scala> listofList.flatMap( i => i*i  ).collect
+<console>:18: error: value * is not a member of List[Int]
+              listofList.flatMap( i => i*i  ).collect
+              
+              
+def fn(i:List[Int]) = i.map(x => x * x)
+
+listofList.flatMap(i => fn(i) ).collect
+
+
+val l = sc.textFile("/home/hduser/projects/sparkProject/sample-data/page-rank/urls.txt")
+
+l.sample(true,.10).count
+
+l.union(l1).count
+
+
+val i = sc.parallelize(List(1,2,3))
+val i1 = sc.parallelize(List(1,2,4))
+
+i.intersection(i1).collect
+
+res94: Array[Int] = Array(1, 2)
+
+
+val i1 = sc.parallelize(List(1,2,4,1,2,4,3))
+
+res98: Array[Int] = Array(4, 1, 2, 3)
+
+
+val l1 = sc.textFile("/home/hduser/projects/sparkProject/sample-data/page-rank/links.txt").map(_.split(" ")).map( x => (x(0), x(1)) )
+
+l1.groupByKey().collect
+
+res102: Array[(String, Iterable[String])] = Array((273,ArrayBuffer(2, 28, 37, 38, 43, 44, 52, 61, 126, 132, 980)), (2828,ArrayBuffer(2)), (1076,ArrayBuffer(2214, 2249, 2250, 2251, 2252, 2253, 2254, 2255, 2256, 2257)), (1148,ArrayBuffer(425)), (2350,ArrayBuffer(3198, 3199)), (1119,ArrayBuffer(425)), (1816,ArrayBuffer(2797)), (5195,ArrayBuffer(3961, 5175, 5194, 5196)), (3638,ArrayBuffer(3115, 4843)), (3119,ArrayBuffer(822)), (5302,ArrayBuffer(4071, 5254, 5301, 5303)), (5836,ArrayBuffer(5468)), (5319,ArrayBuffer(4089, 5307, 5318, 5320)), (5425,ArrayBuffer(822, 3089, 5816)), (312,ArrayBuffer(2, 27, 37, 38, 43, 52, 61, 81, 119, 132)), (1625,ArrayBuffer(536, 537, 538, 539, 540, 541, 542, 543, 544, 545, 546)), (1184,ArrayBuffer(2, 7, 19, 21, 24, 85, 88, 90, 91, 92, 221, 222, 1404, 1405, 2354))...
+
+
+sc.parallelize(List(1,3,3,4,4,1)).map( i => (i, i) ).reduceByKey( (x, y) => x + y ).collect
+
+res111: Array[(Int, Int)] = Array((4,8), (1,2), (3,6))
+
+
+sc.parallelize(List(1,3,3,4,4,1)).map( i => (i, i) ).reduceByKey( (x, y) => x + y ).sortByKey().collect
+
+res113: Array[(Int, Int)] = Array((1,2), (3,6), (4,8))
+
+
+val visits = sc.parallelize(List(("index.html", "1.2.3.4"),("about.html", "3.4.5.6"),("index.html", "1.3.3.1")))
+val pageNames = sc.parallelize(List(("index.html", "Home"), ("about.html", "About")))
+
+
+visits.join(pageNames)
+
+res114: Array[(String, (String, String))] = Array((about.html,(3.4.5.6,About)), (index.html,(1.2.3.4,Home)), (index.html,(1.3.3.1,Home)))
+
+
+visits.cogroup(pageNames)
+
+res115: Array[(String, (Iterable[String], Iterable[String]))] = Array((about.html,(ArrayBuffer(3.4.5.6),ArrayBuffer(About))), (index.html,(ArrayBuffer(1.2.3.4, 1.3.3.1),ArrayBuffer(Home))))
+
+
+val pageMap=pageNames.collect.toMap
+val joined = visits.map( v => (v._1, (pageMap(v._1), v._2)))
+joined.collect
+
+
+

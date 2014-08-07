@@ -73,3 +73,31 @@ def createBytesRefArrayWritable(values  : Array[String]) : BytesRefArrayWritable
   
 rdd.map(tuple => (NullWritable.get(), createBytesRefArrayWritable(tuple.split(" ")))).saveAsHadoopFile("hdfs://192.168.104.131:9000/rc/RCFile", classOf[NullWritable], 
         classOf[BytesRefArrayWritable], classOf[RCFileOutputFormat])
+
+val sc = new SparkContext("local", "RCScheme")
+	  sc.hadoopConfiguration.set("mapreduce.task.output.dir", "/tmp")
+	  sc.hadoopConfiguration.set("fs.defaultFS", "hdfs://192.168.173.93:9000")
+ val conf = new JobConf(sc.hadoopConfiguration)
+ conf.setInt(RCFile.COLUMN_NUMBER_CONF_STR, fields.size)
+rdd.map(tuple => (NullWritable.get(), createBytesRefArrayWritable(tuple.split(" ")))).saveAsHadoopFile("hdfs://192.168.104.131:9000/rc/RCFile", classOf[NullWritable], 
+        classOf[BytesRefArrayWritable], classOf[RCFileOutputFormat], conf)
+sc.hadoopFile[LongWritable,BytesRefArrayWritable,RCFileInputFormat[LongWritable,BytesRefArrayWritable]]("hdfs://192.168.104.131:9000/out.5/part-r-00000")
+.map(tuple => (tuple._1.toString, tuple._2.toString)).count
+
+FOR T_COMPACT to Work
+
+val serializer = new CMemSerializer[org.apache.thrift.TBase[TBase[_, _], TFieldIdEnum]](10240, com.guavus.SerializeProtocol.T_BINARY)
+
+comment above line
+
+def deserialize(t2:Tuple2[NullWritable,BytesWritable]) = {
+	val bytes = t2._2
+	record.clear
+	if(serializer == null) {
+		serializer = new CMemSerializer[org.apache.thrift.TBase[TBase[_, _], TFieldIdEnum]](10240, com.guavus.SerializeProtocol.T_COMPACT)
+	}
+	serializer.deserialize(record, bytes.getBytes(), bytes.getLength());
+	record
+}
+
+

@@ -1,0 +1,12 @@
+The first few lines of the file are copied here:
+
+20090507-040000 aa ?page=http://www.stockphotosharing.com/Themes/Images/users_raw/id.txt 3 39267
+20090507-040000 aa Main_Page 7 51309
+20090507-040000 aa Special:Boardvote 1 11631
+20090507-040000 aa Special:Imagelist 1 931
+
+Each line, delimited by a space, contains stats for one page. The schema is:
+
+<date_time> <project_code> <page_title> <num_hits> <page_size>
+
+The <date_time> field specifies a date in the YYYYMMDD format (year, month, day) followed by a hyphen and then the hour in the HHmmSS format (hour, minute, second). There is no information in mmSS. The <project_code> field contains information about the language of the pages. For example, project code “en” indicates an English page. The <page_title> field gives the title of the Wikipedia page. The <num_hits> field gives the number of page views in the hour-long time slot starting at <data_time>. The <page_size> field gives the size in bytes of the Wikipedia page.

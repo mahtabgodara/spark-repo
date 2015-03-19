@@ -1,0 +1,15 @@
+Before we can begin, we need two things:
+
+    An Apache access log file: If you have one, it's more interesting to use real data.
+        This is trivial sample one provided at data/apache.access.log.
+        Or download a better example here: http://www.monitorware.com/en/logsamples/apache.php
+    A parser and model for the log file: See ApacheAccessLog.java.
+
+The example code uses an Apache access log file since that's a well known and common log format. It would be easy to rewrite the parser for a different log format if you have data in another log format.
+
+The following statistics will be computed:
+
+    1. The average, min, and max content size of responses returned from the server.
+    2. A count of response code's returned.
+    3. All IPAddresses that have accessed this server more than N times.
+    4. The top endpoints requested by count.

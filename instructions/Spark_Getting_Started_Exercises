@@ -1,0 +1,24 @@
+Let’s now use Spark to do some order statistics on the data set. First, launch the Spark shell:
+
+/root/spark/spark-shell
+
+The prompt should appear within a few seconds.
+Note: You may need to hit [Enter] once to clear the log output.
+
+1. Warm up by creating an RDD (Resilient Distributed Dataset) named "pagecounts" from the input files. In the Spark shell, the SparkContext is already created for you as variable sc.
+
+2. Let’s take a peek at the data. You can use the take operation of an RDD to get the first K records. Here, K = 10. you should print each record in its own line.
+
+3. Let’s see how many records in total are in this data set (this command will take a while, so read ahead while it is running).
+
+4. Recall from above when we described the format of the data set, that the second field is the “project code” and contains information about the language of the pages. For example, the project code “en” indicates an English page. Let’s derive an RDD containing only English pages from pagecounts. This can be done by applying a filter function to pagecounts. For each record, we can split it by the field delimiter (i.e. a space) and get the second field-– and then compare it with the string “en”.
+
+To avoid reading from disks each time we perform any operations on the RDD, we also cache the RDD into memory. This is where Spark really starts to to shine.
+
+5. How many records are there for English pages?
+6. Run the solution of ex 5 again and notice the difference in time taken. why?
+7. Suppose we want to find pages that were viewed more than 200,000 times during the three days covered by our dataset. Conceptually, this task is similar to the previous query. But, given the large number of pages (23 million distinct page names), the new task is very expensive. We are doing an expensive group-by with a lot of network shuffling of data.
+
+To recap, first we split each line of data into its respective fields. Next, we extract the fields for page name and number of page views. We reduce by key again, this time with 40 reducers. Then we filter out pages with less than 200,000 total views over our time window represented by our dataset.
+
+8. You can explore the full RDD API by browsing the Java/Scala or Python API docs.

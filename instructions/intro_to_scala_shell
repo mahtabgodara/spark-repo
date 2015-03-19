@@ -1,0 +1,13 @@
+1. Declare a list of integers as a variable called “myNumbers”.
+2. Declare a function, cube, that computes the cube (third power) of an Int. See steps 2-4 of First Steps to Scala.
+3. Apply the function to myNumbers using the map function. Hint: read about the map function in the Scala List API and also in Table 1 about halfway through the First Steps to Scala tutorial.
+4. Then also try writing the function inline in a map call, using closure notation.
+5. Define a factorial function that computes n! = 1 * 2 * … * n given input n. You can use either a loop or recursion, in our solution we use recursion (see steps 5-7 of First Steps to Scala). Then compute the sum of factorials in myNumbers.
+Hint: check out the sum function in the Scala List API.
+6. BONUS QUESTION. This is a more challenging task and may require 10 minutes or more to complete, so you should consider skipping it depending on your timing so far. Do a wordcount of a textfile. More specifically, create and populate a Map with words as keys and counts of the number of occurrences of the word as values.
+You can load a text file as an array of lines as shown below:
+
+    import scala.io.Source
+    val lines = Source.fromFile("/root/spark/README.md").getLines.toArray
+
+Then, instantiate a collection.mutable.HashMap[String,Int] and use functional methods to populate it with wordcounts. Hint, in our solution, which is inspired by this solution online, we use flatMap and then map.

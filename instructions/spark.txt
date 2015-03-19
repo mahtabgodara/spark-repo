@@ -72,5 +72,3 @@ enPages.map(l => l.split(" ")).map(l => (l(2), l(3).toInt)).reduceByKey(_+_, 4).
 
 
 
-
-what DS RDD use?
